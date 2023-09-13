@@ -188,15 +188,5 @@ public class Number
     }
 }
 
-public class Graph
-{
-    private int _numberOfNodes;
-    public LinkedList<int>[] _adj;
-
-    public Graph(int numberOfNodes)
-    {
-        _numberOfNodes = numberOfNodes;
-    }
-}
 
 
