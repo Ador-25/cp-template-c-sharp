@@ -8,24 +8,19 @@
     "net6.0": []
   },
   "packageFolders": {
-    "C:\\Users\\Ador\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\abtaheefarhanador\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Now\\cp-template-c-sharp\\Cp Template\\Cp Template\\Cp Template.csproj",
+      "projectUniqueName": "D:\\cp-template-c-sharp\\Cp Template\\Cp Template\\Cp Template.csproj",
       "projectName": "Cp Template",
-      "projectPath": "D:\\Now\\cp-template-c-sharp\\Cp Template\\Cp Template\\Cp Template.csproj",
-      "packagesPath": "C:\\Users\\Ador\\.nuget\\packages\\",
-      "outputPath": "D:\\Now\\cp-template-c-sharp\\Cp Template\\Cp Template\\obj\\",
+      "projectPath": "D:\\cp-template-c-sharp\\Cp Template\\Cp Template\\Cp Template.csproj",
+      "packagesPath": "C:\\Users\\abtaheefarhanador\\.nuget\\packages\\",
+      "outputPath": "D:\\cp-template-c-sharp\\Cp Template\\Cp Template\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\Ador\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Users\\abtaheefarhanador\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -66,7 +61,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.203\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.401\\RuntimeIdentifierGraph.json"
       }
     }
   }
