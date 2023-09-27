@@ -2,17 +2,202 @@
 using System.Collections.Generic;
 using System.Text;
 
-static void Solve()
+class Solution:FastIO
 {
+    private static long SeriesSum(long k) => ((k * (k + 1)) / 2);
+
+    private static long MaxKSum(long n, long k)
+    {
+        long total = SeriesSum(n);
+        long rem = n - k;
+        return total-SeriesSum(rem);
+    }
+    public static bool Solve(long n,long k,long x)
+    {
+        long minSum = SeriesSum(k);
+        long maxSum = MaxKSum(n, k);
+        if(x<minSum)
+            return false;
+        if (maxSum < x)
+            return false;
+        
+        
+        return true;
+    }
+}
+class  Program :FastIO
+{
+    public static void Main()
+    {
+        // take input
+        int tests = ReadInt();
+        for (int i = 0; i < tests; i++)
+        {
+            var (n, k, x) = ReadTriple<long>();
+            PrintYesOrNo(Solution.Solve(n,k,x));
+        }
+        // call Solution.Solve
+    }
     
 }
-// main 
-FastReader fr = new FastReader();
-PrintWritter pw = new PrintWritter();
-var (a,b,c) = fr.ReadTriple<double>();
-var (d, e) = fr.ReadPair<int>();
-pw.PrintLine(a+" "+b+" "+c+" "+d+" "+e);
 
+
+class FastIO
+{
+        public static int ReadInt()
+    {
+        try
+        {
+            String str = Console.ReadLine();
+            return int.Parse(str);
+        }
+        catch (Exception e)
+        {
+            throw;
+        }
+    }
+    public static double ReadDouble()
+    {
+        return double.Parse(Console.ReadLine());
+    }
+    public static long ReadLong()
+    {
+        return long.Parse(Console.ReadLine());
+    }
+    public static char ReadChar()
+    {
+        return char.Parse(Console.ReadLine());
+    }
+    public static string ReadString()
+    {
+        return Console.ReadLine();
+    }   
+    public static int[] InputArrayInt(int len = -1)
+    {
+        if (len == -1)
+            len = ReadInt();
+        string input = Console.ReadLine();
+        string[] integerStrings = input.Split(' '); 
+        int[] numbers = new int[len];
+        for (int i = 0; i < numbers.Length; i++)
+        {
+            if (int.TryParse(integerStrings[i], out int number))
+            {
+                numbers[i] = number;
+            }
+            else
+            {
+                Console.WriteLine($"Invalid input at position {i + 1}: '{integerStrings[i]}' is not a valid integer.");
+            }
+        }
+        return numbers;
+    }
+    public static long[] InputArrayLong(int len = -1)
+    {
+        if (len == -1)
+            len = ReadInt();
+        string input = Console.ReadLine();
+        string[] integerStrings = input.Split(' '); 
+        long[] numbers = new long[len];
+        for (int i = 0; i < numbers.Length; i++)
+        {
+            if (long.TryParse(integerStrings[i], out long number))
+            {
+                numbers[i] = number;
+            }
+            else
+            {
+                Console.WriteLine($"Invalid input at position {i + 1}: '{integerStrings[i]}' is not a valid integer.");
+            }
+        }
+        return numbers;
+    }
+    public static double[] InputArrayDouble(int len =-1)
+    {
+        if (len == -1)
+            len = ReadInt();
+        string input = Console.ReadLine();
+        string[] doubleStrings = input.Split(' '); 
+        double[] numbers = new Double[len];
+        for (int i = 0; i < numbers.Length; i++)
+        {
+            if (double.TryParse(doubleStrings[i], out double number))
+            {
+                numbers[i] = number;
+            }
+            else
+            {
+                Console.WriteLine($"Invalid input at position {i + 1}: '{doubleStrings[i]}' is not a valid integer.");
+            }
+        }
+        return numbers;
+    }
+    public static char[] InputArrayChar(int len = -1)
+    {
+        if (len == -1)
+            len = ReadInt();
+        string input = Console.ReadLine();
+        string[] charStrings = input.Split(' '); 
+        char[] numbers = new Char[len];
+        for (int i = 0; i < numbers.Length; i++)
+        {
+            if (char.TryParse(charStrings[i], out char number))
+            {
+                numbers[i] = number;
+            }
+            else
+            {
+                Console.WriteLine($"Invalid input at position {i + 1}: '{charStrings[i]}' is not a valid integer.");
+            }
+        }
+        return numbers;
+    }
+    public static (T, T) ReadPair<T>()
+    {
+        string[] s = Console.ReadLine().Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        return ((T)Conv<T>(s[0]), (T)Conv<T>(s[1]));
+    }
+    public static (T, T, T) ReadTriple<T>()
+    {
+        string[] s = Console.ReadLine().Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        return ((T)Conv<T>(s[0]), (T)Conv<T>(s[1]), (T)Conv<T>(s[2]));
+    }
+    public static T Conv<T>(string s)
+    {
+        if (typeof(T) == typeof(int)) return (T)(object)Convert.ToInt32(s);
+        if (typeof(T) == typeof(uint)) return (T)(object)Convert.ToUInt32(s);
+        if (typeof(T) == typeof(long)) return (T)(object)Convert.ToInt64(s);
+        if (typeof(T) == typeof(ulong)) return (T)(object)Convert.ToUInt64(s);
+        if (typeof(T) == typeof(double)) return (T)(object)Convert.ToDouble(s);
+        throw new NotImplementedException();
+    }
+    public static void PrintLine<T>(T value)
+    {
+        Console.WriteLine(value.ToString());
+    }
+    public static void Print<T>(T value)
+    {
+        Console.Write(value.ToString());
+    }
+    public static void PrintArray<T>(T[] arr)
+    {
+        foreach (var item in arr)
+        {
+            Print(item+" ");
+        }
+        PrintLine("");
+    }
+    public static void PrintList<T>(List<T> list)
+    {
+        foreach (var item in list)
+        {
+            Print(item);
+        }
+        PrintLine("");
+    }
+
+    public static void PrintYesOrNo(bool value) => PrintLine(value ? "YES" : "NO");
+}
 
 class Number
 {
@@ -116,165 +301,6 @@ class Scanner
     public double[] DoubleArray() => Array().AsParallel().Select(double.Parse).ToArray();
     public decimal[] DecimalArray() => Array().AsParallel().Select(decimal.Parse).ToArray();
     public char[] CharArray() => Array().AsParallel().Select(char.Parse).ToArray();
-}
-class FastReader
-{
-    public int ReadInt()
-    {
-        try
-        {
-            String str = Console.ReadLine();
-            return int.Parse(str);
-        }
-        catch (Exception e)
-        {
-            throw;
-        }
-    }
-    public double ReadDouble()
-    {
-        return double.Parse(Console.ReadLine());
-    }
-    public long ReadLong()
-    {
-        return long.Parse(Console.ReadLine());
-    }
-    public char ReadChar()
-    {
-        return char.Parse(Console.ReadLine());
-    }
-    public string ReadString()
-    {
-        return Console.ReadLine();
-    }   
-    public int[] InputArrayInt(int len = -1)
-    {
-        if (len == -1)
-            len = ReadInt();
-        string input = Console.ReadLine();
-        string[] integerStrings = input.Split(' '); 
-        int[] numbers = new int[len];
-        for (int i = 0; i < numbers.Length; i++)
-        {
-            if (int.TryParse(integerStrings[i], out int number))
-            {
-                numbers[i] = number;
-            }
-            else
-            {
-                Console.WriteLine($"Invalid input at position {i + 1}: '{integerStrings[i]}' is not a valid integer.");
-            }
-        }
-        return numbers;
-    }
-    public long[] InputArrayLong(int len = -1)
-    {
-        if (len == -1)
-            len = ReadInt();
-        string input = Console.ReadLine();
-        string[] integerStrings = input.Split(' '); 
-        long[] numbers = new long[len];
-        for (int i = 0; i < numbers.Length; i++)
-        {
-            if (long.TryParse(integerStrings[i], out long number))
-            {
-                numbers[i] = number;
-            }
-            else
-            {
-                Console.WriteLine($"Invalid input at position {i + 1}: '{integerStrings[i]}' is not a valid integer.");
-            }
-        }
-        return numbers;
-    }
-    public double[] InputArrayDouble(int len =-1)
-    {
-        if (len == -1)
-            len = ReadInt();
-        string input = Console.ReadLine();
-        string[] doubleStrings = input.Split(' '); 
-        double[] numbers = new Double[len];
-        for (int i = 0; i < numbers.Length; i++)
-        {
-            if (double.TryParse(doubleStrings[i], out double number))
-            {
-                numbers[i] = number;
-            }
-            else
-            {
-                Console.WriteLine($"Invalid input at position {i + 1}: '{doubleStrings[i]}' is not a valid integer.");
-            }
-        }
-        return numbers;
-    }
-    public char[] InputArrayChar(int len = -1)
-    {
-        if (len == -1)
-            len = ReadInt();
-        string input = Console.ReadLine();
-        string[] charStrings = input.Split(' '); 
-        char[] numbers = new Char[len];
-        for (int i = 0; i < numbers.Length; i++)
-        {
-            if (char.TryParse(charStrings[i], out char number))
-            {
-                numbers[i] = number;
-            }
-            else
-            {
-                Console.WriteLine($"Invalid input at position {i + 1}: '{charStrings[i]}' is not a valid integer.");
-            }
-        }
-        return numbers;
-    }
-    public (T, T) ReadPair<T>()
-    {
-        string[] s = Console.ReadLine().Split(' ', StringSplitOptions.RemoveEmptyEntries);
-        return ((T)Conv<T>(s[0]), (T)Conv<T>(s[1]));
-    }
-    public (T, T, T) ReadTriple<T>()
-    {
-        string[] s = Console.ReadLine().Split(' ', StringSplitOptions.RemoveEmptyEntries);
-        return ((T)Conv<T>(s[0]), (T)Conv<T>(s[1]), (T)Conv<T>(s[2]));
-    }
-    public T Conv<T>(string s)
-    {
-        if (typeof(T) == typeof(int)) return (T)(object)Convert.ToInt32(s);
-        if (typeof(T) == typeof(uint)) return (T)(object)Convert.ToUInt32(s);
-        if (typeof(T) == typeof(long)) return (T)(object)Convert.ToInt64(s);
-        if (typeof(T) == typeof(ulong)) return (T)(object)Convert.ToUInt64(s);
-        if (typeof(T) == typeof(double)) return (T)(object)Convert.ToDouble(s);
-        throw new NotImplementedException();
-    }
-}
-
-class PrintWritter
-{
-    public void PrintLine<T>(T value)
-    {
-        Console.WriteLine(value.ToString());
-    }
-    public void Print<T>(T value)
-    {
-        Console.Write(value.ToString());
-    }
-    public void PrintArray<T>(T[] arr)
-    {
-        foreach (var item in arr)
-        {
-            Print(item+" ");
-        }
-        PrintLine("");
-    }
-    public void PrintList<T>(List<T> list)
-    {
-        foreach (var item in list)
-        {
-            Print(item);
-        }
-        PrintLine("");
-    }
-    
 }
 
 
