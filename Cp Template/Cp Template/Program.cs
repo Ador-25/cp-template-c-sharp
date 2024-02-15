@@ -1,8 +1,80 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.Reflection;
 using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
-class Solution:FastIO
+class Program : FastIO
+{
+    class BranchWisePromoBannerInDTO
+    {
+        public int BranchId { get; set; }
+        public bool IsPickup { get; set; }
+        public bool IsDineIn { get; set; }
+        public bool IsDelivery { get; set; }
+        public bool IsFlower { get; set; }
+        public string GetQuery()
+        {
+            string query = $"select promo_ban.\"Name\" as Name, promo_ban.\"Description\" as Description, promo_ban.\"Image\" as Image from public.\"PromoBanners\" promo_ban \ninner join public.\"PromoBannerMappings\" promo_ban_map on promo_ban_map.\"PromoBannerId\"= promo_ban.\"Id\"\ninner join public.\"Branches\" as branch on (promo_ban_map.\"ReferenceId\"= branch.\"Id\" \nand promo_ban_map.\"ReferenceId\"= {BranchId} and promo_ban_map.\"ReferenceTypeId\"=4)\nor (branch.\"ParentRestaurantId\" = promo_ban_map.\"ReferenceId\" \nand branch.\"Id\" = {BranchId} and promo_ban_map.\"ReferenceTypeId\"=3)\nwhere promo_ban.\"IsDelivery\" = {IsDelivery} and promo_ban.\"IsPickup\" = {IsPickup}\nand promo_ban.\"IsFlower\" = {IsFlower} and promo_ban.\"IsDineIn\" = {IsDineIn} and\nNOW() between promo_ban.\"StartDate\" and promo_ban.\"EndDate\" and (now()::time at TIME ZONE 'Asia/Dhaka' \nbetween promo_ban.\"StartTime\" and promo_ban.\"EndTime\")\nand promo_ban_map.\"IsActive\"= True and promo_ban.\"IsActive\"= true";
+            return query;
+        }
+    }
+    static async Task Main()
+    {
+        int[] previous=new int[]{1,2,3};
+        int[] incoming = new int[] {  2, 3, 4 };
+        HashSet<int> previousMappings = new HashSet<int>(previous);
+        HashSet<int> deletedMappings = new HashSet<int>(previous);
+        HashSet<int> newMappings = new HashSet<int>(incoming);
+        previousMappings.IntersectWith(newMappings);
+        deletedMappings.ExceptWith(previousMappings);
+        newMappings.ExceptWith(previousMappings);
+        PrintList(newMappings.ToList());
+        PrintList(deletedMappings.ToList());
+    }
+
+    static async Task<int> GetResponsesCountAsync(TimeSpan duration)
+    {
+        int totalCount = 0;
+        string baseUrl = "http://localhost:8100/api/Benchmark/caching/";
+
+        using (HttpClient client = new HttpClient())
+        {
+            DateTime endTime = DateTime.Now.Add(duration);
+
+            while (DateTime.Now < endTime)
+            {
+                for (int id = 1; id <= 10; id++)
+                {
+                    string url = $"{baseUrl}{id}";
+
+                    try
+                    {
+                        HttpResponseMessage response = await client.GetAsync(url);
+
+                        // Check if the response is successful (status code in the range 200-299)
+                        if (response.IsSuccessStatusCode)
+                        {
+                            totalCount++;
+                        }
+                    }
+                    catch (HttpRequestException ex)
+                    {
+                        // Handle any exceptions that might occur during the request
+                        Console.WriteLine($"Error for id {id}: {ex.Message}");
+                    }
+                }
+            }
+        }
+
+        return totalCount;
+    }
+
+}
+class Solution : FastIO
 {
     private static long SeriesSum(long k) => ((k * (k + 1)) / 2);
 
@@ -10,41 +82,38 @@ class Solution:FastIO
     {
         long total = SeriesSum(n);
         long rem = n - k;
-        return total-SeriesSum(rem);
+        return total - SeriesSum(rem);
     }
-    public static bool Solve(long n,long k,long x)
+    public static bool Solve(long n, long k, long x)
     {
         long minSum = SeriesSum(k);
         long maxSum = MaxKSum(n, k);
-        if(x<minSum)
+        if (x < minSum)
             return false;
         if (maxSum < x)
             return false;
-        
-        
+
+
         return true;
     }
 }
-class  Program :FastIO
-{
-    public static void Main()
-    {
-        // take input
-        int tests = ReadInt();
-        for (int i = 0; i < tests; i++)
-        {
-            var (n, k, x) = ReadTriple<long>();
-            PrintYesOrNo(Solution.Solve(n,k,x));
-        }
-        // call Solution.Solve
-    }
-    
-}
-
-
 class FastIO
 {
-        public static int ReadInt()
+    public static List<string> GetPropertyNames<T>()
+    {
+        Type type = typeof(T);
+        PropertyInfo[] properties = type.GetProperties();
+
+        List<string> propertyNames = new List<string>();
+
+        foreach (var property in properties)
+        {
+            propertyNames.Add(property.Name);
+        }
+
+        return propertyNames;
+    }
+    public static int ReadInt()
     {
         try
         {
@@ -71,13 +140,13 @@ class FastIO
     public static string ReadString()
     {
         return Console.ReadLine();
-    }   
+    }
     public static int[] InputArrayInt(int len = -1)
     {
         if (len == -1)
             len = ReadInt();
         string input = Console.ReadLine();
-        string[] integerStrings = input.Split(' '); 
+        string[] integerStrings = input.Split(' ');
         int[] numbers = new int[len];
         for (int i = 0; i < numbers.Length; i++)
         {
@@ -97,7 +166,7 @@ class FastIO
         if (len == -1)
             len = ReadInt();
         string input = Console.ReadLine();
-        string[] integerStrings = input.Split(' '); 
+        string[] integerStrings = input.Split(' ');
         long[] numbers = new long[len];
         for (int i = 0; i < numbers.Length; i++)
         {
@@ -112,12 +181,12 @@ class FastIO
         }
         return numbers;
     }
-    public static double[] InputArrayDouble(int len =-1)
+    public static double[] InputArrayDouble(int len = -1)
     {
         if (len == -1)
             len = ReadInt();
         string input = Console.ReadLine();
-        string[] doubleStrings = input.Split(' '); 
+        string[] doubleStrings = input.Split(' ');
         double[] numbers = new Double[len];
         for (int i = 0; i < numbers.Length; i++)
         {
@@ -137,7 +206,7 @@ class FastIO
         if (len == -1)
             len = ReadInt();
         string input = Console.ReadLine();
-        string[] charStrings = input.Split(' '); 
+        string[] charStrings = input.Split(' ');
         char[] numbers = new Char[len];
         for (int i = 0; i < numbers.Length; i++)
         {
@@ -173,32 +242,60 @@ class FastIO
     }
     public static void PrintLine<T>(T value)
     {
-        Console.WriteLine(value.ToString());
+        StreamWriter output = new StreamWriter(Console.OpenStandardOutput());
+        output.WriteLine(value);
+        output.Flush();
     }
     public static void Print<T>(T value)
     {
-        Console.Write(value.ToString());
+        StreamWriter output = new StreamWriter(Console.OpenStandardOutput());
+        output.Write(value);
+        output.Flush();
     }
     public static void PrintArray<T>(T[] arr)
     {
         foreach (var item in arr)
         {
-            Print(item+" ");
+            Print(item + " ");
         }
         PrintLine("");
+    }
+
+    public static void PrintSet(HashSet<int> set)
+    {
+        PrintArray(set.ToArray());
     }
     public static void PrintList<T>(List<T> list)
     {
         foreach (var item in list)
         {
-            Print(item);
+
+            Print(item + " ,");
         }
         PrintLine("");
+    }
+    public static void Debug<T>(T obj)
+    {
+        Type type = obj.GetType();
+        PropertyInfo[] properties = type.GetProperties();
+
+        Console.Write("{");
+
+        foreach (PropertyInfo property in properties)
+        {
+            object value = property.GetValue(obj);
+            Console.Write($"{property.Name}:{value}");
+
+            // Add a comma if it's not the last property
+            if (property != properties.LastOrDefault())
+                Console.Write(",");
+        }
+
+        Console.Write("}\n");
     }
 
     public static void PrintYesOrNo(bool value) => PrintLine(value ? "YES" : "NO");
 }
-
 class Number
 {
     public static int GCD(int a, int b)
@@ -255,13 +352,13 @@ class Scanner
     private string[] _line;
     private int _index;
     private const char Separator = ' ';
- 
+
     public Scanner()
     {
         _line = new string[0];
         _index = 0;
     }
- 
+
     public string Next()
     {
         if (_index >= _line.Length)
@@ -271,11 +368,11 @@ class Scanner
             {
                 s = Console.ReadLine();
             } while (s.Length == 0);
- 
+
             _line = s.Split(Separator);
             _index = 0;
         }
- 
+
         return _line[_index++];
     }
     public string ReadLine()

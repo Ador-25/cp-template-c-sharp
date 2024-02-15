@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\cp-template-c-sharp\\Cp Template\\Cp Template\\Cp Template.csproj": {}
+    "D:\\Home\\cp-template-c-sharp\\Cp Template\\Cp Template\\Cp Template.csproj": {}
   },
   "projects": {
-    "D:\\cp-template-c-sharp\\Cp Template\\Cp Template\\Cp Template.csproj": {
+    "D:\\Home\\cp-template-c-sharp\\Cp Template\\Cp Template\\Cp Template.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\cp-template-c-sharp\\Cp Template\\Cp Template\\Cp Template.csproj",
+        "projectUniqueName": "D:\\Home\\cp-template-c-sharp\\Cp Template\\Cp Template\\Cp Template.csproj",
         "projectName": "Cp Template",
-        "projectPath": "D:\\cp-template-c-sharp\\Cp Template\\Cp Template\\Cp Template.csproj",
+        "projectPath": "D:\\Home\\cp-template-c-sharp\\Cp Template\\Cp Template\\Cp Template.csproj",
         "packagesPath": "C:\\Users\\abtaheefarhanador\\.nuget\\packages\\",
-        "outputPath": "D:\\cp-template-c-sharp\\Cp Template\\Cp Template\\obj\\",
+        "outputPath": "D:\\Home\\cp-template-c-sharp\\Cp Template\\Cp Template\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\abtaheefarhanador\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -55,7 +55,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.401\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     }

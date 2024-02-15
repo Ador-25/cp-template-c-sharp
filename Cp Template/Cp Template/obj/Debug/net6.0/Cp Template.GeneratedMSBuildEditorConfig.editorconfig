@@ -8,4 +8,6 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = Cp_Template
-build_property.ProjectDir = D:\cp-template-c-sharp\Cp Template\Cp Template\
+build_property.ProjectDir = D:\Home\cp-template-c-sharp\Cp Template\Cp Template\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
